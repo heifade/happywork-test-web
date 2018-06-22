@@ -10,8 +10,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "happywork-config": "^1.0.0-beta1",
+    "happywork-config": "^1.0.0-beta3",
     "ts-node": "^6.1.2",
     "typescript": "^2.9.2"
+  },
+  "dependencies": {
+    "@types/node": "^10.3.4",
+    "node": "^10.5.0"
   }
 }
