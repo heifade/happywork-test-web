@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
-    "sourceMap": true,
+    "moduleResolution": "node",
     "noImplicitAny": true,
     "target": "es6",
-    "module": "commonjs"
+    "jsx": "react",
+    "module": "commonjs",
+    // "types" : ["node"],
+    "declaration": true,
+    "sourceMap": true,
   }
 }
