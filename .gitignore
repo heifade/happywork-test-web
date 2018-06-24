@@ -5,10 +5,7 @@
 
 # production
 /dist
-/demo/dist
-/demo/node_modules
-/demo/yarn.lock
-/demo/build-temp
+/build-temp
 
 # misc
 .DS_Store
