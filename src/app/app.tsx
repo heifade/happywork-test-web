@@ -13,6 +13,7 @@ import { menuList, routeList } from "./route";
 const history = createHistory();
 const styles = require("./app.less");
 
+
 let { Sider, Content, Header } = Layout;
 
 function getLocation() {
