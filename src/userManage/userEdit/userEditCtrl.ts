@@ -1,11 +1,7 @@
 import { connect } from "react-redux";
 import { Action, Dispatch, AnyAction } from "redux";
 import { UserEditComponent } from "./userEdit";
-import {
-  UserModule,
-  UserEditManageModule,
-  StoreModule
-} from "../../module/module";
+import { UserModule, UserEditManageModule, StoreModule } from "../../module/module";
 import { store } from "../../store";
 import { resolve } from "path";
 
@@ -15,10 +11,7 @@ let initState: UserEditManageModule = {
   isWaiting: false
 };
 
-export function userEditReducer(
-  state = initState,
-  action: Action
-): UserEditManageModule {
+export function userEditReducer(state = initState, action: Action): UserEditManageModule {
   switch (action.type) {
     case "user_edit":
       return {
@@ -107,4 +100,7 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserEditComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserEditComponent);

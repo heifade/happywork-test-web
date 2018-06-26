@@ -9,7 +9,4 @@ export let menuList: Array<MenuModule> = [
   { title: "角色管理", path: "/system/role", img: "solution" }
 ];
 
-export let routeList: Array<{ path: string; component: any }> = [
-  { path: "/index", component: Index }, 
-  { path: "/system/user", component: UserManage }
-];
+export let routeList: Array<{ path: string; component: any }> = [{ path: "/index", component: Index }, { path: "/system/user", component: UserManage }];

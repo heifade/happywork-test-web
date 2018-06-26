@@ -1,9 +1,5 @@
 import * as React from "react";
-import {
-  UserModule,
-  StoreModule,
-  UserEditManageModule
-} from "../../module/module";
+import { UserModule, StoreModule, UserEditManageModule } from "../../module/module";
 import { Dispatch } from "redux";
 import { Modal, Button } from "antd";
 let styles = require("./userEdit.less");
@@ -60,11 +56,7 @@ export class UserEditComponent extends React.Component<Props, any> {
               <tr>
                 <td>姓名:</td>
                 <td>
-                  <input
-                    type="text"
-                    value={user.name}
-                    onChange={this.onUserNameChanged}
-                  />
+                  <input type="text" value={user.name} onChange={this.onUserNameChanged} />
                 </td>
               </tr>
             </tbody>

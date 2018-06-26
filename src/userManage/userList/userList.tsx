@@ -27,7 +27,7 @@ export class UserListComponent extends React.Component<Props, any> {
   }
 
   render() {
-    const dataSource = this.props.userListManage.userList.map((data, index) => ({...data, key: index}));
+    const dataSource = this.props.userListManage.userList.map((data, index) => ({ ...data, key: index }));
     const columns = [
       {
         title: "编号",
@@ -38,14 +38,20 @@ export class UserListComponent extends React.Component<Props, any> {
         title: "姓名",
         dataIndex: "name",
         key: "name"
-      }, {
-        title: '操作',
-        key: 'action',
+      },
+      {
+        title: "操作",
+        key: "action",
         width: 120,
         render: (text: any, record: any) => (
           <span>
-            <a href="javascript:;" onClick={() => this.edit(record)}>编辑</a><Divider type="vertical" />
-            <a href="javascript:;" onClick={() => this.delete(record)}>删除</a>
+            <a href="javascript:;" onClick={() => this.edit(record)}>
+              编辑
+            </a>
+            <Divider type="vertical" />
+            <a href="javascript:;" onClick={() => this.delete(record)}>
+              删除
+            </a>
           </span>
         )
       }

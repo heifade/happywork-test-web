@@ -1,21 +1,14 @@
 import { connect } from "react-redux";
 import { Action, Dispatch } from "redux";
 import { UserListComponent, Props } from "./userList";
-import {
-  UserModule,
-  UserListManageModule,
-  StoreModule
-} from "../../module/module";
+import { UserModule, UserListManageModule, StoreModule } from "../../module/module";
 
 let initState: UserListManageModule = {
   userList: [],
   isWaiting: false
 };
 
-export function userListReducer(
-  state = initState,
-  action: Action
-): UserListManageModule {
+export function userListReducer(state = initState, action: Action): UserListManageModule {
   switch (action.type) {
     case "user_list_fetching":
       return {
@@ -35,9 +28,7 @@ export function userListReducer(
       };
     case "user_deleted": {
       let userList = state.userList;
-      let index = userList.findIndex(
-        (value, index) => value.id == Reflect.get(action, "userData").id
-      );
+      let index = userList.findIndex((value, index) => value.id == Reflect.get(action, "userData").id);
       let list1 = userList.splice(index + 1);
       return {
         userList: userList.splice(0, index).concat(list1),
@@ -108,4 +99,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserListComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserListComponent);

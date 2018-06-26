@@ -9,9 +9,9 @@ export interface UserListManageModule {
 }
 
 export interface UserEditManageModule {
-  readonly user: UserModule | null,
-  readonly isEditing: boolean,
-  readonly isWaiting: boolean,
+  readonly user: UserModule | null;
+  readonly isEditing: boolean;
+  readonly isWaiting: boolean;
 }
 
 export interface UserManageModule {

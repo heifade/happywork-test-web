@@ -18,7 +18,8 @@ let reducer = combineReducers({
 
 export let store = createStore(
   reducer,
-  applyMiddleware(thunkMiddleware, 
+  applyMiddleware(
+    thunkMiddleware
     // loggerMiddleware
   )
 );
