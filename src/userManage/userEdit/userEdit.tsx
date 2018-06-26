@@ -1,24 +1,3 @@
-// import * as React from "react";
-// import { BaseEditComponent } from "../../baseManage/baseEdit/baseEdit";
-// import { UserEditManageModule } from "./userEditModule";
-
-// export interface Props {
-//   userEditManage: UserEditManageModule;
-//   userNameChanged: (value: string) => Promise<any>;
-//   save: (userEditManage: UserEditManageModule) => Promise<any>;
-//   cancel: () => Promise<any>;
-// }
-
-// export class UserEditComponent extends React.Component<Props, any> {
-//   render() {
-//     return (
-//       <BaseEditComponent title="用户信息" data={null} >
-//         111
-//       </BaseEditComponent>
-//     )
-//   }
-// }
-
 import * as React from "react";
 import { UserEditManageModule } from "./userEditModule";
 import { Modal, Button } from "antd";

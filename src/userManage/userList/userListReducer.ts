@@ -5,6 +5,8 @@ import { UserModule, UserListManageModule } from "./userListModule";
 import { StoreModuleKey } from "../../module";
 import { fetchUserList, deleteUser } from "../userManageService";
 
+
+
 export function userListReducer(state = new UserListManageModule(), action: AnyAction): UserListManageModule {
   switch (action.type) {
     case "user_list_fetching":

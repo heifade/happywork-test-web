@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Modal, Button } from "antd";
 import { BaseEditModule } from "./baseEditModule";
-let styles = require("./baseEditModule.less");
+let styles = require("./baseEdit.less");
 
 export interface BaseEditComponentProps {
   title: string;

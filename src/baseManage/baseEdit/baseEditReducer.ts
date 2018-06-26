@@ -29,7 +29,7 @@ export function baseEditReducer(state = {}, action: AnyAction): any {
         isEditing: false
       };
     default:
-      return state;
+      return null;
   }
 }
 
@@ -51,15 +51,12 @@ function editSave() {
 
 const mapStateToProps = (state: any, ownProps: any) => {
   return {
-    baseEditManage: state[StoreModuleKey.userEdit]
+    data: state[StoreModuleKey.userEdit]
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    save: async (userEditManage: UserEditManageModule) => {
-      dispatch(editSave(userEditManage.user!));
-    },
     cancel: async () => {
       dispatch({
         type: "base_edit_cancel"
