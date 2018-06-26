@@ -4,7 +4,7 @@ export class UserModule {
 }
 
 export class UserEditManageModule {
-  public user: UserModule | null = null;
+  public user: UserModule = null;
   public isEditing: boolean = false;
   public isWaiting: boolean = false;
 }
