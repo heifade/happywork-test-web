@@ -1,6 +1,5 @@
 import * as React from "react";
-import { UserModule, StoreModule, UserEditManageModule } from "../../module/module";
-import { Dispatch } from "redux";
+import { UserEditManageModule } from "./userEditModule";
 import { Modal, Button } from "antd";
 let styles = require("./userEdit.less");
 

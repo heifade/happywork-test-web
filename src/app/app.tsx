@@ -8,7 +8,6 @@ import * as classname from "classnames";
 import { MenuProps, MenuComponent } from "./menu";
 import { BreadcrumbComponent } from "./breadcrumb";
 import createHistory from "history/createHashHistory";
-import { MenuModule } from "./modules";
 import { menuList, routeList } from "./route";
 const history = createHistory();
 const styles = require("./app.less");

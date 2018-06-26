@@ -1,5 +1,5 @@
 import * as React from "react";
-import { UserModule, UserListManageModule } from "../../module/module";
+import { UserModule, UserListManageModule } from "./userListModule";
 import { Spin, Table, Divider } from "antd";
 let styles = require("./userList.less");
 

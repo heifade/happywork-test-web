@@ -1,14 +1,10 @@
 import { connect } from "react-redux";
-import { Action, Dispatch } from "redux";
+import { AnyAction, Dispatch, Reducer } from "redux";
 import { UserListComponent, Props } from "./userList";
-import { UserModule, UserListManageModule, StoreModule } from "../../module/module";
+import { UserModule, UserListManageModule } from "./userListModule";
+import { StoreModuleKey } from "../../module";
 
-let initState: UserListManageModule = {
-  userList: [],
-  isWaiting: false
-};
-
-export function userListReducer(state = initState, action: Action): UserListManageModule {
+export function userListReducer(state = new UserListManageModule(), action: AnyAction): UserListManageModule {
   switch (action.type) {
     case "user_list_fetching":
       return {
@@ -18,7 +14,7 @@ export function userListReducer(state = initState, action: Action): UserListMana
     case "user_list_fetched":
       return {
         ...state,
-        userList: Reflect.get(action, "userList"),
+        userList: action["userList"],
         isWaiting: false
       };
     case "user_deleting":
@@ -28,7 +24,7 @@ export function userListReducer(state = initState, action: Action): UserListMana
       };
     case "user_deleted": {
       let userList = state.userList;
-      let index = userList.findIndex((value, index) => value.id == Reflect.get(action, "userData").id);
+      let index = userList.findIndex((value, index) => value.id == action["userData"].id);
       let list1 = userList.splice(index + 1);
       return {
         userList: userList.splice(0, index).concat(list1),
@@ -37,7 +33,7 @@ export function userListReducer(state = initState, action: Action): UserListMana
     }
     case "user_saved": {
       let userList = state.userList;
-      let newData = Reflect.get(action, "userData");
+      let newData = action["userData"];
       let index = userList.findIndex((value, index) => value.id == newData.id);
       let data = userList[index];
       let list1 = userList.splice(index + 1);
@@ -55,9 +51,9 @@ export function userListReducer(state = initState, action: Action): UserListMana
   }
 }
 
-const mapStateToProps = (state: StoreModule, ownProps: any) => {
+const mapStateToProps = (state: any, ownProps: any) => {
   return {
-    userListManage: state.userManage.userListManage
+    userListManage: state[StoreModuleKey.userList]
   };
 };
 
@@ -102,4 +98,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserListComponent);
+)(UserListComponent) as any;

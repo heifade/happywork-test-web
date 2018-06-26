@@ -1,30 +1,24 @@
 import { connect } from "react-redux";
-import { Action, Dispatch, AnyAction } from "redux";
+import { Dispatch, AnyAction } from "redux";
 import { UserEditComponent } from "./userEdit";
-import { UserModule, UserEditManageModule, StoreModule } from "../../module/module";
-import { store } from "../../store";
-import { resolve } from "path";
+import { UserModule, UserEditManageModule } from "./userEditModule";
+import { StoreModuleKey } from "../../module";
+import { wait } from "../../util/util";
 
-let initState: UserEditManageModule = {
-  user: null,
-  isEditing: false,
-  isWaiting: false
-};
-
-export function userEditReducer(state = initState, action: Action): UserEditManageModule {
+export function userEditReducer(state = new UserEditManageModule(), action: AnyAction): UserEditManageModule {
   switch (action.type) {
     case "user_edit":
       return {
         ...state,
         isEditing: true,
-        user: Reflect.get(action, "userData")
+        user: action["userData"]
       };
     case "user_edit_username_changed":
       return {
         ...state,
         user: {
           ...state.user!,
-          name: Reflect.get(action, "value")
+          name: action["value"]
         }
       };
     case "user_edit_saving":
@@ -49,35 +43,28 @@ export function userEditReducer(state = initState, action: Action): UserEditMana
 }
 
 function editSave(userData: UserModule) {
-  return function(dispatch: Dispatch) {
+  return async function(dispatch: Dispatch) {
     dispatch({
       type: "user_edit_saving"
     });
 
-    return new Promise((resolve1, reject1) => {
-      setTimeout(() => {
-        dispatch({
-          type: "user_edit_saved"
-        });
-        resolve1();
-      }, 500);
-    }).then(() => {
-      return new Promise((resolve3, reject3) => {
-        setTimeout(() => {
-          dispatch({
-            type: "user_saved",
-            userData
-          });
-          resolve3();
-        }, 500);
-      });
+    await wait(500);
+
+    dispatch({
+      type: "user_edit_saved"
+    });
+
+    await wait(500);
+    dispatch({
+      type: "user_saved",
+      userData
     });
   };
 }
 
-const mapStateToProps = (state: StoreModule, ownProps: any) => {
+const mapStateToProps = (state: any, ownProps: any) => {
   return {
-    userEditManage: state.userManage.userEditManage
+    userEditManage: state[StoreModuleKey.userEdit]
   };
 };
 
@@ -90,7 +77,7 @@ const mapDispatchToProps = (dispatch: any) => {
       });
     },
     save: (userEditManage: UserEditManageModule) => {
-      dispatch(editSave(userEditManage.user!)).then(() => {});
+      dispatch(editSave(userEditManage.user!));
     },
     cancel: () => {
       dispatch({
@@ -103,4 +90,4 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserEditComponent);
+)(UserEditComponent) as any;
