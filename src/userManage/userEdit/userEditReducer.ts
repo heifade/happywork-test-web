@@ -68,16 +68,16 @@ const mapStateToProps = (state: any, ownProps: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    userNameChanged: (value: string) => {
+    userNameChanged: async (value: string) => {
       dispatch({
         type: "user_edit_username_changed",
         value: value
       });
     },
-    save: (userEditManage: UserEditManageModule) => {
+    save: async (userEditManage: UserEditManageModule) => {
       dispatch(editSave(userEditManage.user!));
     },
-    cancel: () => {
+    cancel: async () => {
       dispatch({
         type: "user_edit_cancel"
       });
