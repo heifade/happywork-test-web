@@ -1,6 +1,6 @@
 import { Action, combineReducers } from "redux";
-import { userListReducer } from "./userList/userListCtrl";
-import { userEditReducer } from "./userEdit/userEditCtrl";
+import { userListReducer } from "./userList/userListReducer";
+import { userEditReducer } from "./userEdit/userEditReducer";
 import { connect } from "react-redux";
 
 // export function userManageReducer(state = new UserManageModule(), action: Action) {
