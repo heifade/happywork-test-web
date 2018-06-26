@@ -5,9 +5,9 @@ let styles = require("./userList.less");
 
 export interface Props {
   userListManage: UserListManageModule;
-  delete: (userData: UserModule) => {};
-  edit: (userData: UserModule) => {};
-  fetch: () => {};
+  delete: (userData: UserModule) => Promise<any>;
+  edit: (userData: UserModule) => Promise<any>;
+  fetch: () => Promise<any>;
 }
 
 export class UserListComponent extends React.Component<Props, any> {

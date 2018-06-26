@@ -3,6 +3,7 @@ import { AnyAction, Dispatch, Reducer } from "redux";
 import { UserListComponent, Props } from "./userList";
 import { UserModule, UserListManageModule } from "./userListModule";
 import { StoreModuleKey } from "../../module";
+import { fetchUserList, deleteUser } from "../userManageService";
 
 export function userListReducer(state = new UserListManageModule(), action: AnyAction): UserListManageModule {
   switch (action.type) {
@@ -22,30 +23,6 @@ export function userListReducer(state = new UserListManageModule(), action: AnyA
         ...state,
         isWaiting: true
       };
-    case "user_deleted": {
-      let userList = state.userList;
-      let index = userList.findIndex((value, index) => value.id == action["userData"].id);
-      let list1 = userList.splice(index + 1);
-      return {
-        userList: userList.splice(0, index).concat(list1),
-        isWaiting: false
-      };
-    }
-    case "user_saved": {
-      let userList = state.userList;
-      let newData = action["userData"];
-      let index = userList.findIndex((value, index) => value.id == newData.id);
-      let data = userList[index];
-      let list1 = userList.splice(index + 1);
-
-      return {
-        ...state,
-        userList: userList
-          .splice(0, index)
-          .concat([newData])
-          .concat(list1)
-      };
-    }
     default:
       return state;
   }
@@ -57,38 +34,33 @@ const mapStateToProps = (state: any, ownProps: any) => {
   };
 };
 
+export async function fetchUser(dispatch: Dispatch) {
+  dispatch({
+    type: "user_list_fetching"
+  });
+
+  let list = await fetchUserList();
+  dispatch({
+    type: "user_list_fetched",
+    userList: list
+  });
+}
+
 const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-    fetch: () => {
-      dispatch({
-        type: "user_list_fetching"
-      });
-
-      setTimeout(() => {
-        let list = new Array<UserModule>();
-        for (let i = 0; i < 20; i++) {
-          list.push({ id: `${i}`, name: `name${i}` });
-        }
-        dispatch({
-          type: "user_list_fetched",
-          userList: list
-        });
-      }, 1000);
+    fetch: async () => {
+      await fetchUser(dispatch);
     },
-    delete: (userData: UserModule) => {
+    delete: async (userData: UserModule) => {
       dispatch({
         type: "user_deleting"
       });
-      setTimeout(() => {
-        dispatch({
-          type: "user_deleted",
-          userData: userData
-        });
-      }, 1000);
+      await deleteUser(userData.id);
+      await fetchUser(dispatch);
     },
-    edit: (userData: UserModule) => {
+    edit: async (userData: UserModule) => {
       dispatch({
-        type: "user_edit",
+        type: "user_edit_open",
         userData: userData
       });
     }

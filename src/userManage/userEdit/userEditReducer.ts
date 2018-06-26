@@ -4,10 +4,12 @@ import { UserEditComponent } from "./userEdit";
 import { UserModule, UserEditManageModule } from "./userEditModule";
 import { StoreModuleKey } from "../../module";
 import { wait } from "../../util/util";
+import { saveUser } from "../userManageService";
+import { fetchUser } from "../userList/userListReducer";
 
 export function userEditReducer(state = new UserEditManageModule(), action: AnyAction): UserEditManageModule {
   switch (action.type) {
-    case "user_edit":
+    case "user_edit_open":
       return {
         ...state,
         isEditing: true,
@@ -49,16 +51,12 @@ function editSave(userData: UserModule) {
     });
 
     await wait(500);
-
     dispatch({
       type: "user_edit_saved"
     });
 
-    await wait(500);
-    dispatch({
-      type: "user_saved",
-      userData
-    });
+    await saveUser(userData);
+    await fetchUser(dispatch); // 调用userList的获取用户方法
   };
 }
 
