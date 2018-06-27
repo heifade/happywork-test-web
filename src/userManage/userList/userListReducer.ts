@@ -4,23 +4,24 @@ import { UserListComponent, Props } from "./userList";
 import { UserModule, UserListManageModule } from "./userListModule";
 import { StoreModuleKey } from "../../module";
 import { fetchUserList, deleteUser } from "../userManageService";
+import { TypePrefix as UserEditTypePrefix } from "../userEdit/userEditReducer";
 
-
+export const TypePrefix = "user_list_";
 
 export function userListReducer(state = new UserListManageModule(), action: AnyAction): UserListManageModule {
-  switch (action.type) {
-    case "user_list_fetching":
+  switch (action.type.substr(TypePrefix.length)) {
+    case "fetching":
       return {
         ...state,
         isWaiting: true
       };
-    case "user_list_fetched":
+    case "fetched":
       return {
         ...state,
         userList: action["userList"],
         isWaiting: false
       };
-    case "user_deleting":
+    case "deleting":
       return {
         ...state,
         isWaiting: true
@@ -38,12 +39,12 @@ const mapStateToProps = (state: any, ownProps: any) => {
 
 export async function fetchUser(dispatch: Dispatch) {
   dispatch({
-    type: "user_list_fetching"
+    type: `${TypePrefix}fetching`
   });
 
   let list = await fetchUserList();
   dispatch({
-    type: "user_list_fetched",
+    type: `${TypePrefix}fetched`,
     userList: list
   });
 }
@@ -55,14 +56,14 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     },
     delete: async (userData: UserModule) => {
       dispatch({
-        type: "user_deleting"
+        type: `${TypePrefix}deleting`
       });
       await deleteUser(userData.id);
       await fetchUser(dispatch);
     },
     edit: async (userData: UserModule) => {
       dispatch({
-        type: "user_edit_open",
+        type: `${UserEditTypePrefix}open`,
         userData: userData
       });
     }

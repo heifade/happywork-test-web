@@ -7,15 +7,17 @@ import { wait } from "../../util/util";
 import { saveUser } from "../userManageService";
 import { fetchUser } from "../userList/userListReducer";
 
+export const TypePrefix = "user_edit_";
+
 export function userEditReducer(state = new UserEditManageModule(), action: AnyAction): UserEditManageModule {
-  switch (action.type) {
-    case "user_edit_open":
+  switch (action.type.substr(TypePrefix.length)) {
+    case "open":
       return {
         ...state,
         isEditing: true,
         user: action["userData"]
       };
-    case "user_edit_username_changed":
+    case "username_changed":
       return {
         ...state,
         user: {
@@ -23,18 +25,18 @@ export function userEditReducer(state = new UserEditManageModule(), action: AnyA
           name: action["value"]
         }
       };
-    case "user_edit_saving":
+    case "saving":
       return {
         ...state,
         isWaiting: true
       };
-    case "user_edit_saved":
+    case "saved":
       return {
         ...state,
         isEditing: false,
         isWaiting: false
       };
-    case "user_edit_cancel":
+    case "cancel":
       return {
         ...state,
         isEditing: false
@@ -47,12 +49,12 @@ export function userEditReducer(state = new UserEditManageModule(), action: AnyA
 function editSave(userData: UserModule) {
   return async function(dispatch: Dispatch) {
     dispatch({
-      type: "user_edit_saving"
+      type: `${TypePrefix}saving`
     });
 
     await wait(500);
     dispatch({
-      type: "user_edit_saved"
+      type: `${TypePrefix}saved`
     });
 
     await saveUser(userData);
@@ -70,7 +72,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     userNameChanged: async (value: string) => {
       dispatch({
-        type: "user_edit_username_changed",
+        type: `${TypePrefix}username_changed`,
         value: value
       });
     },
@@ -79,7 +81,7 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     cancel: async () => {
       dispatch({
-        type: "user_edit_cancel"
+        type: `${TypePrefix}cancel`
       });
     }
   };
