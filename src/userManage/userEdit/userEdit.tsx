@@ -6,7 +6,6 @@ let styles = require("./userEdit.less");
 
 export interface Props {
   userEditManage: UserEditManageModule;
-  userNameChanged: (value: string) => Promise<any>;
   save: (user: UserModule) => Promise<any>;
   cancel: () => Promise<any>;
   form: WrappedFormUtils;
@@ -41,15 +40,15 @@ class UserEditComponent extends React.Component<Props, any> {
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
-        sm: { span: 8 }
+        sm: { span: 4 }
       },
       wrapperCol: {
         xs: { span: 24 },
-        sm: { span: 16 }
+        sm: { span: 20 }
       }
     };
 
-    const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator, getFieldValue } = this.props.form;
 
     return (
       <Modal
@@ -84,4 +83,22 @@ class UserEditComponent extends React.Component<Props, any> {
   }
 }
 
-export default Form.create()(UserEditComponent);
+export default Form.create({
+  onFieldsChange(props, changedFields) {
+    props.onChange({
+      ...props.userEditManage.user,
+      name: changedFields.name.value
+    });
+  },
+  mapPropsToFields(props) {
+    let user = props.userEditManage.user || {};
+    return {
+      id: Form.createFormField({
+        value: user.id
+      }),
+      name: Form.createFormField({
+        value: user.name
+      })
+    };
+  }
+})(UserEditComponent);

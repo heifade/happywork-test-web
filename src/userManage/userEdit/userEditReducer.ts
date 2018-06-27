@@ -33,6 +33,11 @@ export function userEditReducer(state = new UserEditManageModule(), action: AnyA
         ...state,
         isEditing: false
       };
+    case "formFieldsChanged":
+      return {
+        ...state,
+        user: action["data"]
+      }
     default:
       return state;
   }
@@ -68,6 +73,12 @@ const mapDispatchToProps = (dispatch: any) => {
     cancel: async () => {
       dispatch({
         type: `${TypePrefix}cancel`
+      });
+    },
+    onChange: async (changedFields: any) => {
+      dispatch({
+        type: `${TypePrefix}formFieldsChanged`,
+        data: changedFields
       });
     }
   };
