@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { Dispatch, AnyAction } from "redux";
-import { UserEditComponent } from "./userEdit";
+import UserEditComponent from "./userEdit";
 import { UserModule, UserEditManageModule } from "./userEditModule";
 import { StoreModuleKey } from "../../module";
 import { wait } from "../../util/util";
@@ -16,14 +16,6 @@ export function userEditReducer(state = new UserEditManageModule(), action: AnyA
         ...state,
         isEditing: true,
         user: action["userData"]
-      };
-    case "username_changed":
-      return {
-        ...state,
-        user: {
-          ...state.user!,
-          name: action["value"]
-        }
       };
     case "saving":
       return {
@@ -70,14 +62,8 @@ const mapStateToProps = (state: any, ownProps: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    userNameChanged: async (value: string) => {
-      dispatch({
-        type: `${TypePrefix}username_changed`,
-        value: value
-      });
-    },
-    save: async (userEditManage: UserEditManageModule) => {
-      dispatch(editSave(userEditManage.user!));
+    save: async (user: UserModule) => {
+      dispatch(editSave(user));
     },
     cancel: async () => {
       dispatch({
