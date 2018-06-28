@@ -17,7 +17,7 @@ export class EditReducer {
       case "open":
         return {
           ...state,
-          isEditing: true,
+          isShow: true,
           item: action["item"]
         };
       case "saving":
@@ -28,19 +28,25 @@ export class EditReducer {
       case "saved":
         return {
           ...state,
-          isEditing: false,
+          isShow: false,
           isWaiting: false
         };
-      case "cancel":
+      case "close":
         return {
           ...state,
-          isEditing: false
+          isShow: false
         };
       case "formFieldsChanged":
+        // return {
+        //   ...state,
+        //   item: action["item"]
+        // };
+
         return {
-          ...state,
+          ...state, 
           item: action["item"]
-        };
+        }
+
       default:
         return state;
     }
@@ -70,12 +76,12 @@ export class EditReducer {
 
   mapDispatchToProps(dispatch: any) {
     return {
-      save: async (item: EditItemModule) => {
+      onSave: async (item: EditItemModule) => {
         dispatch(this.editSave(item).bind(this));
       },
-      cancel: async () => {
+      onClose: async () => {
         dispatch({
-          type: `${this.TypePrefix}cancel`
+          type: `${this.TypePrefix}close`
         });
       },
       onChange: async (item: any) => {

@@ -5,6 +5,6 @@ export class EditItemModule {
 
 export class PageModule {
   public item: EditItemModule = null;
-  public isEditing: boolean = false;
+  public isShow: boolean = false;
   public isWaiting: boolean = false;
 }
