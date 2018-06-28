@@ -7,7 +7,7 @@ import { wait } from "../../util/util";
 import { saveData } from "../pageBaseService";
 import { fetchData } from "../list/listReducer";
 
-export const TypePrefix = "edit_";
+export const TypePrefix = "base_edit_";
 
 export function editReducer(state = new PageModule(), action: AnyAction): PageModule {
   switch (action.type.substr(TypePrefix.length)) {

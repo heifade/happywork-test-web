@@ -1,12 +1,12 @@
 import * as React from "react";
 import List from "./list/listReducer";
-import Edit from "./edit/editReducer";
+// import Edit from "./edit/editReducer";
 
 export function PageBase() {
   return (
     <div>
-      <List />
-      <Edit />
+      <DataList />
+      {/* <DataEdit /> */}
     </div>
   );
 }
