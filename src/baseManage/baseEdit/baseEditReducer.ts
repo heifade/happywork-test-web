@@ -1,65 +1,84 @@
 import { connect } from "react-redux";
 import { Dispatch, AnyAction } from "redux";
-import { BaseEditComponent } from "./baseEdit";
+import BaseEditComponent from "./baseEdit";
+import { DataModule, DataEditManageModule } from "./baseEditModule";
 import { StoreModuleKey } from "../../module";
 import { wait } from "../../util/util";
+import { saveData } from "../baseManageService";
+import { fetchData } from "../baseList/baseListReducer";
 
-export function baseEditReducer(state = {}, action: AnyAction): any {
-  switch (action.type) {
-    case "base_edit_open":
+export const TypePrefix = "base_edit_";
+
+export function baseEditReducer(state = new DataEditManageModule(), action: AnyAction): DataEditManageModule {
+  switch (action.type.substr(TypePrefix.length)) {
+    case "open":
       return {
         ...state,
         isEditing: true,
-        user: action["userData"]
+        data: action["data"]
       };
-    case "base_edit_saving":
+    case "saving":
       return {
         ...state,
         isWaiting: true
       };
-    case "base_edit_saved":
+    case "saved":
       return {
         ...state,
         isEditing: false,
         isWaiting: false
       };
-    case "base_edit_cancel":
+    case "cancel":
       return {
         ...state,
         isEditing: false
       };
+    case "formFieldsChanged":
+      return {
+        ...state,
+        data: action["data"]
+      }
     default:
-      return null;
+      return state;
   }
 }
 
-function editSave() {
+function editSave(data: DataModule) {
   return async function(dispatch: Dispatch) {
     dispatch({
-      type: "base_edit_saving"
+      type: `${TypePrefix}saving`
     });
 
     await wait(500);
     dispatch({
-      type: "base_edit_saved"
+      type: `${TypePrefix}saved`
     });
 
-    // await saveUser(userData);
-    // await fetchUser(dispatch); // 调用userList的获取用户方法
+    await saveData(data);
+    await fetchData(dispatch); // 调用baseList的获取数据方法
   };
 }
 
 const mapStateToProps = (state: any, ownProps: any) => {
   return {
-    data: state[StoreModuleKey.userEdit]
+    dataEditManage: state[StoreModuleKey.baseEdit]
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    save: async (data: DataModule) => {
+      dispatch(editSave(data));
+    },
     cancel: async () => {
       dispatch({
-        type: "base_edit_cancel"
+        type: `${TypePrefix}cancel`
+      });
+    },
+    onChange: async (changedFields: any) => {
+      dispatch({
+        type: `${TypePrefix}formFieldsChanged`,
+        data: changedFields
       });
     }
   };

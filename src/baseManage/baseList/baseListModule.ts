@@ -3,8 +3,7 @@ export class DataModule {
   public name: string;
 }
 
-export class DataEditManageModule {
-  public data: DataModule = null;
-  public isEditing: boolean = false;
+export class DataListManageModule {
+  public dataList: Array<DataModule> = [];
   public isWaiting: boolean = false;
 }

@@ -1,34 +1,59 @@
 import * as React from "react";
-import { Modal, Button } from "antd";
-import { BaseEditModule } from "./baseEditModule";
+import { DataEditManageModule, DataModule } from "./baseEditModule";
+import { Modal, Button, Form, Input } from "antd";
+import { WrappedFormUtils } from "antd/lib/form/Form";
 let styles = require("./baseEdit.less");
 
-export interface BaseEditComponentProps {
-  title: string;
-  data: BaseEditModule;
-  save: (data: BaseEditModule) => Promise<any>;
+export interface Props {
+  dataEditManage: DataEditManageModule;
+  save: (data: DataModule) => Promise<any>;
   cancel: () => Promise<any>;
+  form: WrappedFormUtils;
 }
 
-export class BaseEditComponent extends React.Component<BaseEditComponentProps, any> {
-  constructor(props: BaseEditComponentProps, context: any) {
+class BaseEditComponent extends React.Component<Props, any> {
+  constructor(props: Props, context: any) {
     super(props, context);
   }
-  onSave = () => {
-    this.props.save(this.props.data);
-  };
   onCancel = () => {
     this.props.cancel();
   };
 
+  onSave = (e: any) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, fieldsValue) => {
+      if (err) {
+        return;
+      }
+
+      this.props.save({
+        id: fieldsValue["id"],
+        name: fieldsValue["name"]
+      });
+    });
+  };
+
   render() {
-    let { title } = this.props;
-    let { isEditing, isWaiting } = this.props.data;
+    let { isEditing, data, isWaiting } = this.props.dataEditManage;
+    data = data || { id: "", name: "" };
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 4 }
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 20 }
+      }
+    };
+
+    const { getFieldDecorator } = this.props.form;
 
     return (
       <Modal
         visible={isEditing}
-        title={title}
+        title={"用户信息编辑"}
         onCancel={this.onCancel}
         footer={[
           <Button key="close" onClick={this.onCancel}>
@@ -39,8 +64,44 @@ export class BaseEditComponent extends React.Component<BaseEditComponentProps, a
           </Button>
         ]}
       >
-        <div className={styles.baseEditModule}>{this.props.children}</div>
+        <div className={styles.baseEdit}>
+          <Form>
+            <Form.Item {...formItemLayout} label="编号">
+              {getFieldDecorator("id", {
+                rules: [{ type: "string", required: true, message: "请输入编号" }]
+              })(<Input placeholder="请输入编号" />)}
+            </Form.Item>
+            <Form.Item {...formItemLayout} label="姓名">
+              {getFieldDecorator("name", {
+                rules: [{ type: "string", required: true, message: "请输入姓名" }]
+              })(<Input placeholder="请输入姓名" />)}
+            </Form.Item>
+          </Form>
+        </div>
       </Modal>
     );
   }
 }
+
+export default Form.create({
+  onFieldsChange(props, changedFields) {
+    let obj = {};
+    Reflect.ownKeys(changedFields).map(key => (obj[key] = changedFields[key].value));
+
+    props.onChange({
+      ...props.dataEditManage.data,
+      ...obj
+    });
+  },
+  mapPropsToFields(props) {
+    let data = props.dataEditManage.data || {};
+    return {
+      id: Form.createFormField({
+        value: data.id
+      }),
+      name: Form.createFormField({
+        value: data.name
+      })
+    };
+  }
+})(BaseEditComponent);

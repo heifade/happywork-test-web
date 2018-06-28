@@ -3,6 +3,8 @@ import thunkMiddleware from "redux-thunk"; // 允许我们 dispatch() 函数
 // import { userManageReducer } from "./userManage/userManageReducer";
 import { userListReducer } from "./userManage/userList/userListReducer";
 import { userEditReducer } from "./userManage/userEdit/userEditReducer";
+import { baseListReducer } from "./baseManage/baseList/baseListReducer";
+import { baseEditReducer } from "./baseManage/baseEdit/baseEditReducer";
 import { createLogger } from "redux-logger";
 import { StoreModuleKey } from "./module";
 
@@ -17,7 +19,9 @@ const loggerMiddleware = createLogger();
 
 let reducer = combineReducers({
   [StoreModuleKey.userList]: userListReducer,
-  [StoreModuleKey.userEdit]: userEditReducer
+  [StoreModuleKey.userEdit]: userEditReducer,
+  [StoreModuleKey.baseList]: baseListReducer,
+  [StoreModuleKey.baseEdit]: baseEditReducer,
 });
 
 export let store = createStore(

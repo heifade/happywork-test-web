@@ -1,25 +1,25 @@
 import * as React from "react";
-import { UserModule, UserListManageModule } from "./userListModule";
+import { DataModule, DataListManageModule } from "./baseListModule";
 import { Spin, Table, Divider } from "antd";
-let styles = require("./userList.less");
+let styles = require("./baseList.less");
 
 export interface Props {
-  userListManage: UserListManageModule;
-  delete: (userData: UserModule) => Promise<any>;
-  edit: (userData: UserModule) => Promise<any>;
+  dataList: DataListManageModule;
+  delete: (data: DataModule) => Promise<any>;
+  edit: (data: DataModule) => Promise<any>;
   fetch: () => Promise<any>;
 }
 
-export class UserListComponent extends React.Component<Props, any> {
+export class BaseListComponent extends React.Component<Props, any> {
   constructor(props: Props, context: any) {
     super(props, context);
   }
 
-  edit = (user: UserModule) => {
-    this.props.edit(user);
+  edit = (data: DataModule) => {
+    this.props.edit(data);
   };
-  delete = (user: UserModule) => {
-    this.props.delete(user);
+  delete = (data: DataModule) => {
+    this.props.delete(data);
   };
 
   componentDidMount() {
@@ -27,7 +27,7 @@ export class UserListComponent extends React.Component<Props, any> {
   }
 
   render() {
-    const dataSource = (this.props.userListManage.userList || []).map((data, index) => ({ ...data, key: index }));
+    const dataSource = (this.props.dataList.dataList || []).map((data, index) => ({ ...data, key: index }));
     const columns = [
       {
         title: "编号",
@@ -58,8 +58,8 @@ export class UserListComponent extends React.Component<Props, any> {
     ];
 
     return (
-      <div className={styles.userList}>
-        <Spin spinning={this.props.userListManage.isWaiting}>
+      <div className={styles.baseList}>
+        <Spin spinning={this.props.dataList.isWaiting}>
           <Table dataSource={dataSource} columns={columns} />
         </Spin>
       </div>

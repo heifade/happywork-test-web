@@ -48,7 +48,7 @@ class UserEditComponent extends React.Component<Props, any> {
       }
     };
 
-    const { getFieldDecorator, getFieldValue } = this.props.form;
+    const { getFieldDecorator } = this.props.form;
 
     return (
       <Modal
@@ -68,12 +68,12 @@ class UserEditComponent extends React.Component<Props, any> {
           <Form>
             <Form.Item {...formItemLayout} label="编号">
               {getFieldDecorator("id", {
-                rules: [{ type: "string", required: true, message: "请输入编号!" }]
+                rules: [{ type: "string", required: true, message: "请输入编号" }]
               })(<Input placeholder="请输入编号" />)}
             </Form.Item>
             <Form.Item {...formItemLayout} label="姓名">
               {getFieldDecorator("name", {
-                rules: [{ type: "string", required: true, message: "请输入姓名!" }]
+                rules: [{ type: "string", required: true, message: "请输入姓名" }]
               })(<Input placeholder="请输入姓名" />)}
             </Form.Item>
           </Form>
@@ -85,9 +85,12 @@ class UserEditComponent extends React.Component<Props, any> {
 
 export default Form.create({
   onFieldsChange(props, changedFields) {
+    let obj = {};
+    Reflect.ownKeys(changedFields).map(key => (obj[key] = changedFields[key].value));
+
     props.onChange({
       ...props.userEditManage.user,
-      name: changedFields.name.value
+      ...obj
     });
   },
   mapPropsToFields(props) {
