@@ -1,10 +1,10 @@
-export class DataModule {
+export class EditItemModule {
   public id: string;
   public name: string;
 }
 
-export class DataEditManageModule {
-  public data: DataModule = null;
+export class PageModule {
+  public item: EditItemModule = null;
   public isEditing: boolean = false;
   public isWaiting: boolean = false;
 }

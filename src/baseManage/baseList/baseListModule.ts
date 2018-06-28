@@ -1,9 +1,9 @@
-export class DataModule {
+export class ListItemModule {
   public id: string;
   public name: string;
 }
 
-export class DataListManageModule {
-  public dataList: Array<DataModule> = [];
+export class PageModule {
+  public dataList: Array<ListItemModule> = [];
   public isWaiting: boolean = false;
 }

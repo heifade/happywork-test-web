@@ -1,12 +1,12 @@
 import * as React from "react";
-import { DataModule, DataListManageModule } from "./baseListModule";
+import { ListItemModule, PageModule } from "./baseListModule";
 import { Spin, Table, Divider } from "antd";
 let styles = require("./baseList.less");
 
 export interface Props {
-  dataList: DataListManageModule;
-  delete: (data: DataModule) => Promise<any>;
-  edit: (data: DataModule) => Promise<any>;
+  pageModule: PageModule;
+  delete: (item: ListItemModule) => Promise<any>;
+  edit: (item: ListItemModule) => Promise<any>;
   fetch: () => Promise<any>;
 }
 
@@ -15,11 +15,11 @@ export class BaseListComponent extends React.Component<Props, any> {
     super(props, context);
   }
 
-  edit = (data: DataModule) => {
-    this.props.edit(data);
+  edit = (item: ListItemModule) => {
+    this.props.edit(item);
   };
-  delete = (data: DataModule) => {
-    this.props.delete(data);
+  delete = (item: ListItemModule) => {
+    this.props.delete(item);
   };
 
   componentDidMount() {
@@ -27,7 +27,7 @@ export class BaseListComponent extends React.Component<Props, any> {
   }
 
   render() {
-    const dataSource = (this.props.dataList.dataList || []).map((data, index) => ({ ...data, key: index }));
+    const dataSource = (this.props.pageModule.dataList || []).map((data, index) => ({ ...data, key: index }));
     const columns = [
       {
         title: "编号",
@@ -59,7 +59,7 @@ export class BaseListComponent extends React.Component<Props, any> {
 
     return (
       <div className={styles.baseList}>
-        <Spin spinning={this.props.dataList.isWaiting}>
+        <Spin spinning={this.props.pageModule.isWaiting}>
           <Table dataSource={dataSource} columns={columns} />
         </Spin>
       </div>

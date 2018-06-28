@@ -1,12 +1,12 @@
 import * as React from "react";
-import { DataEditManageModule, DataModule } from "./baseEditModule";
+import { EditItemModule, PageModule } from "./baseEditModule";
 import { Modal, Button, Form, Input } from "antd";
 import { WrappedFormUtils } from "antd/lib/form/Form";
 let styles = require("./baseEdit.less");
 
 export interface Props {
-  dataEditManage: DataEditManageModule;
-  save: (data: DataModule) => Promise<any>;
+  pageModule: PageModule;
+  save: (item: EditItemModule) => Promise<any>;
   cancel: () => Promise<any>;
   form: WrappedFormUtils;
 }
@@ -34,8 +34,8 @@ class BaseEditComponent extends React.Component<Props, any> {
   };
 
   render() {
-    let { isEditing, data, isWaiting } = this.props.dataEditManage;
-    data = data || { id: "", name: "" };
+    let { isEditing, item, isWaiting } = this.props.pageModule;
+    item = item || { id: "", name: "" };
 
     const formItemLayout = {
       labelCol: {
@@ -89,12 +89,12 @@ export default Form.create({
     Reflect.ownKeys(changedFields).map(key => (obj[key] = changedFields[key].value));
 
     props.onChange({
-      ...props.dataEditManage.data,
+      ...props.pageModule.item,
       ...obj
     });
   },
   mapPropsToFields(props) {
-    let data = props.dataEditManage.data || {};
+    let data = props.pageModule.item || {};
     return {
       id: Form.createFormField({
         value: data.id

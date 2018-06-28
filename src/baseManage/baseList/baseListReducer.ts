@@ -1,14 +1,14 @@
 import { connect } from "react-redux";
 import { AnyAction, Dispatch, Reducer } from "redux";
 import { BaseListComponent, Props } from "./baseList";
-import { DataModule, DataListManageModule } from "./baseListModule";
+import { ListItemModule, PageModule } from "./baseListModule";
 import { StoreModuleKey } from "../../module";
 import { fetchDataList, deleteData } from "../baseManageService";
 import { TypePrefix as BaseEditTypePrefix } from "../baseEdit/baseEditReducer";
 
 export const TypePrefix = "base_list_";
 
-export function baseListReducer(state = new DataListManageModule(), action: AnyAction): DataListManageModule {
+export function baseListReducer(state = new PageModule(), action: AnyAction): PageModule {
   switch (action.type.substr(TypePrefix.length)) {
     case "fetching":
       return {
@@ -33,7 +33,7 @@ export function baseListReducer(state = new DataListManageModule(), action: AnyA
 
 const mapStateToProps = (state: any, ownProps: any) => {
   return {
-    dataList: state[StoreModuleKey.baseList]
+    pageModule: state[StoreModuleKey.baseList]
   };
 };
 
@@ -54,17 +54,17 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     fetch: async () => {
       await fetchData(dispatch);
     },
-    delete: async (data: DataModule) => {
+    delete: async (item: ListItemModule) => {
       dispatch({
         type: `${TypePrefix}deleting`
       });
-      await deleteData(data.id);
+      await deleteData(item.id);
       await fetchData(dispatch);
     },
-    edit: async (data: DataModule) => {
+    edit: async (item: ListItemModule) => {
       dispatch({
         type: `${BaseEditTypePrefix}open`,
-        data: data
+        item: item
       });
     }
   };

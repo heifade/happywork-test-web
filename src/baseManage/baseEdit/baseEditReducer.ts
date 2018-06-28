@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { Dispatch, AnyAction } from "redux";
 import BaseEditComponent from "./baseEdit";
-import { DataModule, DataEditManageModule } from "./baseEditModule";
+import { EditItemModule, PageModule } from "./baseEditModule";
 import { StoreModuleKey } from "../../module";
 import { wait } from "../../util/util";
 import { saveData } from "../baseManageService";
@@ -9,13 +9,13 @@ import { fetchData } from "../baseList/baseListReducer";
 
 export const TypePrefix = "base_edit_";
 
-export function baseEditReducer(state = new DataEditManageModule(), action: AnyAction): DataEditManageModule {
+export function baseEditReducer(state = new PageModule(), action: AnyAction): PageModule {
   switch (action.type.substr(TypePrefix.length)) {
     case "open":
       return {
         ...state,
         isEditing: true,
-        data: action["data"]
+        item: action["item"]
       };
     case "saving":
       return {
@@ -36,14 +36,14 @@ export function baseEditReducer(state = new DataEditManageModule(), action: AnyA
     case "formFieldsChanged":
       return {
         ...state,
-        data: action["data"]
+        item: action["item"]
       }
     default:
       return state;
   }
 }
 
-function editSave(data: DataModule) {
+function editSave(item: EditItemModule) {
   return async function(dispatch: Dispatch) {
     dispatch({
       type: `${TypePrefix}saving`
@@ -54,31 +54,31 @@ function editSave(data: DataModule) {
       type: `${TypePrefix}saved`
     });
 
-    await saveData(data);
+    await saveData(item);
     await fetchData(dispatch); // 调用baseList的获取数据方法
   };
 }
 
 const mapStateToProps = (state: any, ownProps: any) => {
   return {
-    dataEditManage: state[StoreModuleKey.baseEdit]
+    pageModule: state[StoreModuleKey.baseEdit]
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    save: async (data: DataModule) => {
-      dispatch(editSave(data));
+    save: async (item: EditItemModule) => {
+      dispatch(editSave(item));
     },
     cancel: async () => {
       dispatch({
         type: `${TypePrefix}cancel`
       });
     },
-    onChange: async (changedFields: any) => {
+    onChange: async (item: any) => {
       dispatch({
         type: `${TypePrefix}formFieldsChanged`,
-        data: changedFields
+        item: item
       });
     }
   };
