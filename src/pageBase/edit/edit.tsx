@@ -10,13 +10,3 @@ export const formItemLayout = {
     sm: { span: 20 }
   }
 };
-
-export function onFieldsChange(props: any, changedFields: any) {
-  let obj: any = {};
-  Reflect.ownKeys(changedFields).map(key => (obj[key] = changedFields[key].value));
-
-  props.onChange({
-    ...props.pageModule.item,
-    ...obj
-  });
-}

@@ -3,7 +3,7 @@ import { EditItemModule, PageModule } from "./editModule";
 import { Modal, Button, Form, Input } from "antd";
 import { WrappedFormUtils } from "antd/lib/form/Form";
 import { EditModalComponent } from "../../pageBase/edit/editModal";
-import { formItemLayout, onFieldsChange } from "../../pageBase/edit/edit";
+import { formItemLayout } from "../../pageBase/edit/edit";
 let styles = require("./edit.less");
 
 export interface Props {
@@ -61,19 +61,8 @@ class UserEditComponent extends React.Component<Props, any> {
 }
 
 export default Form.create({
-  // onFieldsChange,
   onFieldsChange(props: any, changedFields: any) {
-    // let obj: any = {};
-    // Reflect.ownKeys(changedFields).map(key => (obj[key] = changedFields[key].value));
-  
-    // props.onChange({
-    //   ...props.pageModule.item,
-    //   ...obj
-    // });
-
-
     props.onChange(changedFields);
-
   },
   mapPropsToFields(props) {
     let data = props.pageModule.item || {};
