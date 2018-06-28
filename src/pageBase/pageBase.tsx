@@ -1,6 +1,9 @@
 import * as React from "react";
-import List from "./list/listReducer";
-import Edit from "./edit/editReducer";
+import { listReducer } from "./list/listReducer";
+import { editReducer } from "./edit/editReducer";
+
+let List = listReducer.connect();
+let Edit = editReducer.connect();
 
 export function PageBase() {
   return (
@@ -10,5 +13,3 @@ export function PageBase() {
     </div>
   );
 }
-
-

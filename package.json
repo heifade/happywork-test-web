@@ -35,6 +35,8 @@
   },
   "dependencies": {
     "@types/node": "^10.3.4",
-    "node": "^10.5.0"
+    "@types/uuid": "^3.4.3",
+    "node": "^10.5.0",
+    "uuid": "^3.3.0"
   }
 }

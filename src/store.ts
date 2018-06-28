@@ -17,11 +17,13 @@ import { StoreModuleKey } from "./module";
 
 const loggerMiddleware = createLogger();
 
+
+
 let reducer = combineReducers({
   [StoreModuleKey.userList]: userListReducer,
   [StoreModuleKey.userEdit]: userEditReducer,
-  [StoreModuleKey.baseList]: listReducer,
-  [StoreModuleKey.baseEdit]: editReducer,
+  [StoreModuleKey.baseList]: listReducer.reducer.bind(listReducer),
+  [StoreModuleKey.baseEdit]: editReducer.reducer.bind(editReducer),
 });
 
 export let store = createStore(

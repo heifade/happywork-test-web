@@ -1,8 +1,14 @@
+import { AnyAction } from "redux";
+import { PageModule } from "./listModule";
 
 
 export const TypePrefix = "user_list_";
 
 export function listReducer(state = new PageModule(), action: AnyAction): PageModule {
+
+  
+
+
   switch (action.type.substr(TypePrefix.length)) {
     case "fetching":
       return {
