@@ -1,9 +1,11 @@
 import * as React from "react";
+import { ListComponent } from "./list/list";
+import EditComponent from "./edit/edit";
 import { listReducer } from "./list/listReducer";
 import { editReducer } from "./edit/editReducer";
 
-let List = listReducer.connect();
-let Edit = editReducer.connect();
+let List = listReducer.connect(ListComponent);
+let Edit = editReducer.connect(EditComponent);
 
 export function PageBase() {
   return (

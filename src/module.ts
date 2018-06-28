@@ -3,7 +3,10 @@ export enum StoreModuleKey {
   userEdit,
 
   baseList,
-  baseEdit
+  baseEdit,
+
+  userList2,
+  userEdit2,
 }
 
 

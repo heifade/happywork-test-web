@@ -5,6 +5,8 @@ import { userListReducer } from "./userManage/userList/userListReducer";
 import { userEditReducer } from "./userManage/userEdit/userEditReducer";
 import { listReducer } from "./pageBase/list/listReducer";
 import { editReducer } from "./pageBase/edit/editReducer";
+import { userListReducer as userListReducer2 } from "./userPage/list/listReducer";
+import { userEditReducer as userEditReducer2 } from "./userPage/edit/editReducer";
 import { createLogger } from "redux-logger";
 import { StoreModuleKey } from "./module";
 
@@ -17,13 +19,14 @@ import { StoreModuleKey } from "./module";
 
 const loggerMiddleware = createLogger();
 
-
-
 let reducer = combineReducers({
   [StoreModuleKey.userList]: userListReducer,
   [StoreModuleKey.userEdit]: userEditReducer,
-  [StoreModuleKey.baseList]: listReducer.reducer.bind(listReducer),
-  [StoreModuleKey.baseEdit]: editReducer.reducer.bind(editReducer),
+  [listReducer.TypePrefix]: listReducer.reducer.bind(listReducer),
+  [editReducer.TypePrefix]: editReducer.reducer.bind(editReducer),
+
+  [userListReducer2.TypePrefix]: userListReducer2.reducer.bind(userListReducer2),
+  [userEditReducer2.TypePrefix]: userEditReducer2.reducer.bind(userEditReducer2)
 });
 
 export let store = createStore(

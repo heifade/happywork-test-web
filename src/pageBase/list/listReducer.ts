@@ -1,8 +1,6 @@
 import { connect } from "react-redux";
 import { AnyAction, Dispatch, Reducer } from "redux";
-import { ListComponent, Props } from "./list";
 import { ListItemModule, PageModule } from "./listModule";
-import { StoreModuleKey } from "../../module";
 import { fetchDataList, deleteData } from "../pageBaseService";
 import { editReducer } from "../edit/editReducer";
 import { v4 } from "uuid";
@@ -13,7 +11,7 @@ export class ListReducer {
     this.TypePrefix = v4();
   }
 
-  reducer = (state = new PageModule(), action: AnyAction): PageModule => {
+  reducer(state = new PageModule(), action: AnyAction): PageModule {
     switch (action.type.substr(this.TypePrefix.length)) {
       case "fetching":
         return {
@@ -34,15 +32,15 @@ export class ListReducer {
       default:
         return state;
     }
-  };
+  }
 
-  mapStateToProps = (state: any, ownProps: any) => {
+  mapStateToProps(state: any, ownProps: any) {
     return {
-      pageModule: state[StoreModuleKey.baseList]
+      pageModule: state[this.TypePrefix]
     };
-  };
+  }
 
-  fetchData = async function(dispatch: Dispatch) {
+  async fetchData(dispatch: Dispatch) {
     dispatch({
       type: `${this.TypePrefix}fetching`
     });
@@ -52,9 +50,9 @@ export class ListReducer {
       type: `${this.TypePrefix}fetched`,
       dataList: list
     });
-  };
+  }
 
-  mapDispatchToProps = (dispatch: Dispatch) => {
+  mapDispatchToProps(dispatch: Dispatch) {
     return {
       fetch: async () => {
         await this.fetchData(dispatch);
@@ -73,14 +71,14 @@ export class ListReducer {
         });
       }
     };
-  };
+  }
 
-  connect = () => {
+  connect(component: any) {
     return connect(
       this.mapStateToProps.bind(this),
       this.mapDispatchToProps.bind(this)
-    )(ListComponent) as any;
-  };
+    )(component) as any;
+  }
 }
 
 export const listReducer = new ListReducer();

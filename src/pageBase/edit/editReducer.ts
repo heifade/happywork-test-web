@@ -1,8 +1,6 @@
 import { connect } from "react-redux";
 import { Dispatch, AnyAction } from "redux";
-import EditComponent from "./edit";
 import { EditItemModule, PageModule } from "./editModule";
-import { StoreModuleKey } from "../../module";
 import { wait } from "../../util/util";
 import { saveData } from "../pageBaseService";
 import { listReducer } from "../list/listReducer";
@@ -14,7 +12,7 @@ export class EditReducer {
     this.TypePrefix = v4();
   }
 
-  reducer = (state = new PageModule(), action: AnyAction): PageModule => {
+  reducer(state = new PageModule(), action: AnyAction): PageModule {
     switch (action.type.substr(this.TypePrefix.length)) {
       case "open":
         return {
@@ -46,9 +44,9 @@ export class EditReducer {
       default:
         return state;
     }
-  };
+  }
 
-  editSave = (item: EditItemModule) => {
+  editSave(item: EditItemModule) {
     return async function(dispatch: Dispatch) {
       dispatch({
         type: `${this.TypePrefix}saving`
@@ -62,15 +60,15 @@ export class EditReducer {
       await saveData(item);
       await listReducer.fetchData(dispatch); // 调用baseList的获取数据方法
     };
-  };
+  }
 
-  mapStateToProps = (state: any, ownProps: any) => {
+  mapStateToProps(state: any, ownProps: any) {
     return {
-      pageModule: state[StoreModuleKey.baseEdit]
+      pageModule: state[this.TypePrefix]
     };
-  };
+  }
 
-  mapDispatchToProps = (dispatch: any) => {
+  mapDispatchToProps(dispatch: any) {
     return {
       save: async (item: EditItemModule) => {
         dispatch(this.editSave(item).bind(this));
@@ -87,14 +85,14 @@ export class EditReducer {
         });
       }
     };
-  };
+  }
 
-  connect = () => {
+  connect(component: any) {
     return connect(
       this.mapStateToProps.bind(this),
       this.mapDispatchToProps.bind(this)
-    )(EditComponent) as any;
-  };
+    )(component) as any;
+  }
 }
 
 export const editReducer = new EditReducer();
