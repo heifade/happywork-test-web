@@ -1,14 +1,14 @@
 import { connect } from "react-redux";
 import { AnyAction, Dispatch, Reducer } from "redux";
-import { BaseListComponent, Props } from "./baseList";
-import { ListItemModule, PageModule } from "./baseListModule";
+import { ListComponent, Props } from "./list";
+import { ListItemModule, PageModule } from "./listModule";
 import { StoreModuleKey } from "../../module";
-import { fetchDataList, deleteData } from "../baseManageService";
-import { TypePrefix as BaseEditTypePrefix } from "../baseEdit/baseEditReducer";
+import { fetchDataList, deleteData } from "../pageBaseService";
+import { TypePrefix as BaseEditTypePrefix } from "../edit/editReducer";
 
 export const TypePrefix = "base_list_";
 
-export function baseListReducer(state = new PageModule(), action: AnyAction): PageModule {
+export function listReducer(state = new PageModule(), action: AnyAction): PageModule {
   switch (action.type.substr(TypePrefix.length)) {
     case "fetching":
       return {
@@ -73,4 +73,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BaseListComponent) as any;
+)(ListComponent) as any;

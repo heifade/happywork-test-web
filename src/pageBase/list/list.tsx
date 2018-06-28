@@ -1,7 +1,7 @@
 import * as React from "react";
-import { ListItemModule, PageModule } from "./baseListModule";
+import { ListItemModule, PageModule } from "./listModule";
 import { Spin, Table, Divider } from "antd";
-let styles = require("./baseList.less");
+let styles = require("./list.less");
 
 export interface Props {
   pageModule: PageModule;
@@ -10,7 +10,7 @@ export interface Props {
   fetch: () => Promise<any>;
 }
 
-export class BaseListComponent extends React.Component<Props, any> {
+export class ListComponent extends React.Component<Props, any> {
   constructor(props: Props, context: any) {
     super(props, context);
   }

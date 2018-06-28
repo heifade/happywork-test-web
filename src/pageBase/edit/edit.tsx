@@ -1,8 +1,8 @@
 import * as React from "react";
-import { EditItemModule, PageModule } from "./baseEditModule";
+import { EditItemModule, PageModule } from "./editModule";
 import { Modal, Button, Form, Input } from "antd";
 import { WrappedFormUtils } from "antd/lib/form/Form";
-let styles = require("./baseEdit.less");
+let styles = require("./edit.less");
 
 export interface Props {
   pageModule: PageModule;
@@ -11,7 +11,7 @@ export interface Props {
   form: WrappedFormUtils;
 }
 
-class BaseEditComponent extends React.Component<Props, any> {
+class EditComponent extends React.Component<Props, any> {
   constructor(props: Props, context: any) {
     super(props, context);
   }
@@ -64,7 +64,7 @@ class BaseEditComponent extends React.Component<Props, any> {
           </Button>
         ]}
       >
-        <div className={styles.baseEdit}>
+        <div className={styles.edit}>
           <Form>
             <Form.Item {...formItemLayout} label="编号">
               {getFieldDecorator("id", {
@@ -104,4 +104,4 @@ export default Form.create({
       })
     };
   }
-})(BaseEditComponent);
+})(EditComponent);

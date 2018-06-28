@@ -1,15 +1,15 @@
 import { connect } from "react-redux";
 import { Dispatch, AnyAction } from "redux";
-import BaseEditComponent from "./baseEdit";
-import { EditItemModule, PageModule } from "./baseEditModule";
+import EditComponent from "./edit";
+import { EditItemModule, PageModule } from "./editModule";
 import { StoreModuleKey } from "../../module";
 import { wait } from "../../util/util";
-import { saveData } from "../baseManageService";
-import { fetchData } from "../baseList/baseListReducer";
+import { saveData } from "../pageBaseService";
+import { fetchData } from "../list/listReducer";
 
-export const TypePrefix = "base_edit_";
+export const TypePrefix = "edit_";
 
-export function baseEditReducer(state = new PageModule(), action: AnyAction): PageModule {
+export function editReducer(state = new PageModule(), action: AnyAction): PageModule {
   switch (action.type.substr(TypePrefix.length)) {
     case "open":
       return {
@@ -87,4 +87,4 @@ const mapDispatchToProps = (dispatch: any) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(BaseEditComponent) as any;
+)(EditComponent) as any;
