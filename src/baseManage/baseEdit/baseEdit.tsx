@@ -84,8 +84,8 @@ class BaseEditComponent extends React.Component<Props, any> {
 }
 
 export default Form.create({
-  onFieldsChange(props, changedFields) {
-    let obj = {};
+  onFieldsChange(props: any, changedFields: any) {
+    let obj: any = {};
     Reflect.ownKeys(changedFields).map(key => (obj[key] = changedFields[key].value));
 
     props.onChange({
